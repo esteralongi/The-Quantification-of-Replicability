@@ -4,8 +4,8 @@
 ##   figures/prior_posterior.pdf        prior -> posterior movement of the metrics
 ##   figures/simulation_calibration.pdf simulation calibration (3 heterogeneities)
 ##
-## All metrics use the INTERNAL names of compute_replication_probs_hier(), which
-## are the names returned by simulate_replicability().
+## All metrics use the paper-style names returned by compute_replication_probs_hier()
+## and simulate_replicability() (P_overall_2, P_gen_pos_2, P_c_pos_2, ...).
 ## Run steps 1 and 2 first (they write results/fit_replicability.rds and
 ## results/simulation.rds).
 ## -----------------------------------------------------------------------------
@@ -22,29 +22,29 @@ eps    <- res$eps
 nu     <- priors$nu
 
 ## metric order and pretty (plotmath) labels ----------------------------------
-metrics_k2 <- c("Agr_2", "P_Rep_2", "P_pos_2", "P_null_2", "P_neg_2",
-                "Cond_S1", "Cond_S2", "Cond_S3", "P_beta",
-                "Agr_Gen_2", "Agr_Gen_non_null_2", "Pos_Gen_2", "Null_Gen_2",
-                "Neg_Gen_2", "CondPos_Gen", "CondNull_Gen", "CondNeg_Gen")
+metrics_k2 <- c("P_overall_2", "P_non_null_2", "P_pos_2", "P_null_2", "P_neg_2",
+                "P_cond_O1_m1", "P_cond_O2_m1", "P_cond_O3_m1", "P_beta",
+                "P_gen_overall_2", "P_gen_non_null_2", "P_gen_pos_2", "P_gen_null_2",
+                "P_gen_neg_2", "P_c_pos_2", "P_c_null_2", "P_c_neg_2")
 
 label_dict <- c(
-  "Agr_2"              = "P['overall, 2']",
-  "P_Rep_2"            = "P['non-null, 2']",
-  "P_pos_2"            = "P['pos, 2']",
-  "P_null_2"           = "P['null, 2']",
-  "P_neg_2"            = "P['neg, 2']",
-  "Cond_S1"            = "P[list('cond' ~ '|' ~ O == 1, m == 1)]",
-  "Cond_S2"            = "P[list('cond' ~ '|' ~ O == 2, m == 1)]",
-  "Cond_S3"            = "P[list('cond' ~ '|' ~ O == 3, m == 1)]",
-  "P_beta"             = "P[beta]",
-  "Agr_Gen_2"          = "P['gen, overall, 2']",
-  "Agr_Gen_non_null_2" = "P['gen, non-null, 2']",
-  "Pos_Gen_2"          = "P['gen, pos, 2']",
-  "Null_Gen_2"         = "P['gen, null, 2']",
-  "Neg_Gen_2"          = "P['gen, neg, 2']",
-  "CondPos_Gen"        = "P['c, pos, 2']",
-  "CondNull_Gen"       = "P['c, null, 2']",
-  "CondNeg_Gen"        = "P['c, neg, 2']"
+  "P_overall_2"      = "P['overall, 2']",
+  "P_non_null_2"     = "P['non-null, 2']",
+  "P_pos_2"          = "P['pos, 2']",
+  "P_null_2"         = "P['null, 2']",
+  "P_neg_2"          = "P['neg, 2']",
+  "P_cond_O1_m1"     = "P[list('cond' ~ '|' ~ O == 1, m == 1)]",
+  "P_cond_O2_m1"     = "P[list('cond' ~ '|' ~ O == 2, m == 1)]",
+  "P_cond_O3_m1"     = "P[list('cond' ~ '|' ~ O == 3, m == 1)]",
+  "P_beta"           = "P[beta]",
+  "P_gen_overall_2"  = "P['gen, overall, 2']",
+  "P_gen_non_null_2" = "P['gen, non-null, 2']",
+  "P_gen_pos_2"      = "P['gen, pos, 2']",
+  "P_gen_null_2"     = "P['gen, null, 2']",
+  "P_gen_neg_2"      = "P['gen, neg, 2']",
+  "P_c_pos_2"        = "P['c, pos, 2']",
+  "P_c_null_2"       = "P['c, null, 2']",
+  "P_c_neg_2"        = "P['c, neg, 2']"
 )
 
 ## helper: named list of probabilities -> tidy data frame (metric, value) ------
@@ -56,17 +56,17 @@ probs_to_df <- function(pr) {
 
 ## posterior reference (from the empirical hierarchical fit) -------------------
 post <- rstan::extract(res$fit_hierarchical)
-probs_post <- compute_replication_probs_hier(post$a[, 1], post$a[, 2], post$a[, 3],
-                                             post$mu_a, eps)
+probs_post <- compute_replication_probs_hier(list(post$beta[, 1], post$beta[, 2], post$beta[, 3]),
+                                             post$mu_beta, eps)
 
 ## prior reference (coherent draws: mu is the SAME beta that generates a1,a2,a3)
 Nd         <- 50000
-tau_a_draw <- rtrunc_t_pos(Nd, nu, priors$mu_tau_a, priors$scale_tau_a)
-beta_draw  <- priors$mu_a + priors$scale_a * rt(Nd, df = nu)
+tau_a_draw <- rtrunc_t_pos(Nd, nu, priors$mu_tau_beta, priors$scale_tau_beta)
+beta_draw  <- priors$mu_beta + priors$scale_beta * rt(Nd, df = nu)
 a1 <- beta_draw + tau_a_draw * rt(Nd, df = nu)
 a2 <- beta_draw + tau_a_draw * rt(Nd, df = nu)
 a3 <- beta_draw + tau_a_draw * rt(Nd, df = nu)
-probs_prior <- compute_replication_probs_hier(a1, a2, a3, beta_draw, eps)
+probs_prior <- compute_replication_probs_hier(list(a1, a2, a3), beta_draw, eps)
 
 ## ============================================================================
 ## Figure 1: prior -> posterior movement

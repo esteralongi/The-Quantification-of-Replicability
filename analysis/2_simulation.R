@@ -17,7 +17,7 @@ res  <- readRDS("results/fit_replicability.rds")
 
 R <- 30   # replicate datasets per level
 
-sim_beta  <- simulate_replicability(res, data, vary = "tau_a",     R = R)  # effect heterogeneity
+sim_beta  <- simulate_replicability(res, data, vary = "tau_beta",     R = R)  # effect heterogeneity
 sim_alpha <- simulate_replicability(res, data, vary = "tau_alpha", R = R)  # intercept heterogeneity
 sim_sigma <- simulate_replicability(res, data, vary = "tau_sig",   R = R)  # residual-scale heterogeneity
 

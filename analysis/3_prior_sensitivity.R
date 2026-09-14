@@ -12,7 +12,7 @@ library(RepliBayes)
 
 data <- read.csv("data/synthetic_data.csv")
 
-sens <- sensitivity_prior(data, target = "tau_a")
+sens <- sensitivity_prior(data, target = "tau_beta")
 
 dir.create("results", showWarnings = FALSE)
 saveRDS(sens, "results/sensitivity_tau_a.rds")
