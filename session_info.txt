@@ -1,0 +1,10 @@
+Placeholder. Generate the real session information by running, from the repo root:
+
+    writeLines(capture.output(sessionInfo()), "session_info.txt")
+
+or, for a fuller report:
+
+    sessioninfo::session_info(to_file = "session_info.txt")
+
+This records the exact versions of R, RepliBayes, rstan and all other packages
+used to produce the results, and should be committed alongside them.

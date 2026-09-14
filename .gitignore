@@ -1,0 +1,13 @@
+# RStudio
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+# OS
+.DS_Store
+
+# compiled Stan artefacts
+*.rds.lock
+*.o
+*.so
