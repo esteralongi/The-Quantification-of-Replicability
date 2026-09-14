@@ -12,10 +12,15 @@ library(RepliBayes)
 
 data <- read.csv("data/synthetic_data.csv")
 
-sens <- sensitivity_prior(data, target = "tau_beta")
+## Arguments (paper setting S = 3, k = 2):
+##   target = "tau_beta" : shift the prior on the effect heterogeneity
+##                         (use "tau_alpha" or "tau_sig" for the others)
+##   k = 2, m = 1        : consensus level / conditional threshold for the metrics
+##   percentiles         : prior medians at which the model is refit (default grid)
+sens <- sensitivity_prior(data, target = "tau_beta", k = 2, m = 1)
 
 dir.create("results", showWarnings = FALSE)
-saveRDS(sens, "results/sensitivity_tau_a.rds")
+saveRDS(sens, "results/sensitivity_tau_beta.rds")
 
 cat("\n--- Per-setting diagnostics ---\n")
 print(sens$grid)

@@ -26,11 +26,11 @@ exact numbers reported in the paper.
 ```
 The-Quantification-Of-Replicability/
 ├── analysis/
+│   ├── 0_motivating_example.R  # two-topics motivating example (standalone; Section "The Added Value of Replicability")
 │   ├── 1_fit_replicability.R   # empirical metrics: hierarchical, independence, retrospective, prospective
 │   ├── 2_simulation.R          # simulation calibration, varying each heterogeneity (tau_beta/alpha/sigma)
 │   ├── 3_prior_sensitivity.R   # prior sensitivity to the prior on tau_beta
-│   ├── 4_threshold_free.R      # threshold-free summaries of the study-specific effects
-│   └── 5_figures.R             # paper figures (prior -> posterior movement; simulation calibration)
+│   └── 4_figures.R             # paper figures (prior -> posterior movement; simulation calibration)
 ├── data/
 │   └── synthetic_data.csv      # synthetic stand-in for the GTEx data
 ├── results/                    # script outputs (.rds); created on first run
@@ -70,28 +70,31 @@ All paths are relative to the repository root (the RStudio project directory).
 Run the scripts in order:
 
 ```r
+source("analysis/0_motivating_example.R")  # standalone; writes the two-topics figure
 source("analysis/1_fit_replicability.R")   # fits both models; writes results/fit_replicability.rds
 source("analysis/2_simulation.R")          # simulation calibration (slow: R refits per scenario)
 source("analysis/3_prior_sensitivity.R")   # refits across a grid of priors on tau_beta
-source("analysis/4_threshold_free.R")      # threshold-free summaries
-source("analysis/5_figures.R")             # writes the paper figures to figures/
+source("analysis/4_figures.R")             # writes the paper figures to figures/
 ```
 
-Step 1 fits the hierarchical and independence-limit models and reports all
-replication probabilities (each with a Monte Carlo standard error). Step 2
+The framework is run at the paper's setting **S = 3 studies, consensus level
+k = 2** (each script passes `k = 2, m = 1` explicitly; `S` is read from
+`data$study`). Step 0 is a self-contained analytic example and does not use the
+package. Step 1 fits the hierarchical and independence-limit models and reports
+all replication probabilities (each with a Monte Carlo standard error). Step 2
 recomputes the simulation calibration for the three heterogeneity components.
 Step 3 reruns the analysis while shifting the prior on the effect heterogeneity.
-Step 5 rebuilds the figures from the saved results.
+Step 4 rebuilds the figures from the saved results.
 
 ## Outputs
 
 | script | output |
 |---|---|
+| `0_motivating_example.R` | `figures/fig_two_topics.pdf`, `results/two_topics_suffstats.rds` |
 | `1_fit_replicability.R` | `results/fit_replicability.rds`; empirical, retrospective and prospective metric tables |
 | `2_simulation.R` | `results/simulation.rds`; per-scenario metrics with MCSE |
-| `3_prior_sensitivity.R` | `results/sensitivity_tau_a.rds`; metric-by-prior-median grid |
-| `4_threshold_free.R` | max-divergence and 3-way density-overlap summaries |
-| `5_figures.R` | `figures/simulation_calibration.pdf`, `figures/prior_posterior.pdf` |
+| `3_prior_sensitivity.R` | `results/sensitivity_tau_beta.rds`; metric-by-prior-median grid |
+| `4_figures.R` | `figures/simulation_calibration.pdf`, `figures/prior_posterior.pdf` |
 
 ## Citation
 
