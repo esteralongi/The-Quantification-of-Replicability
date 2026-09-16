@@ -99,4 +99,4 @@ Step 4 rebuilds the figures from the saved results.
 ## Citation
 
 > Alongi, E., Altoè, G. & Parmigiani, G. (2026). *The Quantification of
-> Replicability.* Statistical Science (to appear).
+> Replicability.*
