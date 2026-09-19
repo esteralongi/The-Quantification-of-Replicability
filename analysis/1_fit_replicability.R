@@ -17,17 +17,17 @@ data <- read.csv("data/synthetic_data.csv")   # columns: study, x, m
 priors <- default_priors()
 
 ## One call fits both models and computes every metric. Arguments used here
-## reproduce the paper's setting (S = 3 studies, consensus level k = 2):
+## reproduce the paper's setting (S = 3 studies, consensus level consensus_level = 2):
 ##   priors  : the elicited hyperparameters
-##   k = 2   : replication requires at least 2 of the 3 studies to agree
-##   m = 1   : each study's conditional metric requires >= 1 other agreeing study
+##   consensus_level = 2   : replication requires at least 2 of the 3 studies to agree
+##   min_corroborating = 1   : each study's conditional metric requires >= 1 other agreeing study
 ##   eps     : practical-relevance threshold; the default (NULL) sets it to
 ##             10% of the baseline (x = 0) mean outcome
 ##   retrospective / prospective default to TRUE; with 3 studies the retrospective
 ##   analysis leaves out study 1 and uses studies 2-3 as the body of evidence,
 ##   and the prospective analysis draws a new study from all 3.
 ## (S is read from data$study, so nothing else is needed for the 3-study case.)
-res <- fit_replicability(data, priors = priors, k = 2, m = 1)
+res <- fit_replicability(data, priors = priors, consensus_level = 2, min_corroborating = 1)
 
 dir.create("results", showWarnings = FALSE)
 saveRDS(res, "results/fit_replicability.rds")

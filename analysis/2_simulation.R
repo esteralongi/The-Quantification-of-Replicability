@@ -17,14 +17,14 @@ res  <- readRDS("results/fit_replicability.rds")
 
 R <- 30   # replicate datasets per level
 
-## Arguments (paper setting S = 3, k = 2):
+## Arguments (paper setting S = 3, consensus_level = 2):
 ##   res    : the fitted object from step 1 (supplies the ground-truth locations)
 ##   vary   : which generative component varies across low/medium/high levels
-##   k = 2  : consensus level for the metrics; m = 1 for the conditional metrics
+##   consensus_level = 2  : consensus level for the metrics; min_corroborating = 1 for the conditional metrics
 ##   R      : number of simulated datasets per level
-sim_beta  <- simulate_replicability(res, data, vary = "tau_beta",  k = 2, m = 1, R = R)  # effect heterogeneity
-sim_alpha <- simulate_replicability(res, data, vary = "tau_alpha", k = 2, m = 1, R = R)  # intercept heterogeneity
-sim_sigma <- simulate_replicability(res, data, vary = "tau_sig",   k = 2, m = 1, R = R)  # residual-scale heterogeneity
+sim_beta  <- simulate_replicability(res, data, vary = "tau_beta",  consensus_level = 2, min_corroborating = 1, R = R)  # effect heterogeneity
+sim_alpha <- simulate_replicability(res, data, vary = "tau_alpha", consensus_level = 2, min_corroborating = 1, R = R)  # intercept heterogeneity
+sim_sigma <- simulate_replicability(res, data, vary = "tau_sig",   consensus_level = 2, min_corroborating = 1, R = R)  # residual-scale heterogeneity
 
 dir.create("results", showWarnings = FALSE)
 saveRDS(list(beta = sim_beta, alpha = sim_alpha, sigma = sim_sigma),
