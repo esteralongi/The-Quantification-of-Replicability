@@ -74,8 +74,8 @@ Run the scripts in order:
 source("analysis/0_motivating_example.R")  # standalone; writes the two-topics figure
 source("analysis/1_fit_replicability.R")   # fits both the hierarchical and the independence-limit models and reports
 all replication probabilities; writes results/fit_replicability.rds
-source("analysis/2_simulation.R")          # simulation calibration for the three heterogeneity components
-source("analysis/3_prior_sensitivity.R")   # refits across a grid of priors on the effect heterogeneity tau_beta
+source("analysis/2_prior_sensitivity.R")   # refits across a grid of priors on the effect heterogeneity tau_beta
+source("analysis/3_simulation.R")          # simulation calibration for the three heterogeneity components
 source("analysis/4_figures.R")             # writes the paper figures to figures/
 ```
 
