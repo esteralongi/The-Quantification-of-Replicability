@@ -1,8 +1,12 @@
-## 5_figures.R
+## 4_figures.R
 ## -----------------------------------------------------------------------------
-## Paper figures, rebuilt from the saved results:
-##   figures/prior_posterior.pdf        prior -> posterior movement of the metrics
-##   figures/simulation_calibration.pdf simulation calibration (3 heterogeneities)
+## Paper figure, rebuilt from the saved results:
+##   figures/simulation_calibration.pdf  simulation calibration (3 heterogeneities),
+##                                        with the empirical prior and posterior
+##                                        overlaid as reference lines.
+##
+## (The prior -> posterior "movement" plot is not a paper figure; it is shown
+## only in the package vignette.)
 ##
 ## All metrics use the paper-style names returned by compute_replication_probs_hier()
 ## and simulate_replicability() (P_overall_2, P_gen_pos_2, P_c_pos_2, ...).
@@ -69,31 +73,8 @@ a3 <- beta_draw + tau_a_draw * rt(Nd, df = nu)
 probs_prior <- compute_replication_probs_hier(list(a1, a2, a3), beta_draw, eps)
 
 ## ============================================================================
-## Figure 1: prior -> posterior movement
-## ============================================================================
-ref <- rbind(
-  data.frame(type = "Prior",     probs_to_df(probs_prior)),
-  data.frame(type = "Posterior", probs_to_df(probs_post))
-)
-ref$metric <- factor(ref$metric, levels = metrics_k2)
-ref$type   <- factor(ref$type, levels = c("Prior", "Posterior"))
-
-g1 <- ggplot(ref, aes(metric, value, group = metric)) +
-  geom_line(color = "grey70", linewidth = 0.4) +
-  geom_point(aes(shape = type, color = type), size = 2.3) +
-  scale_shape_manual(values = c(Prior = 17, Posterior = 16)) +
-  scale_color_manual(values = c(Prior = "grey55", Posterior = "black")) +
-  scale_x_discrete(labels = function(x) parse(text = label_dict[x])) +
-  ylim(0, 1) +
-  labs(x = "", y = "Probability", shape = "", color = "") +
-  theme_minimal(base_size = 11) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        legend.position = "top", panel.grid.major.x = element_blank())
-
-ggsave("figures/prior_posterior.pdf", g1, width = 9, height = 4.5)
-
-## ============================================================================
-## Figure 2: simulation calibration (three heterogeneity scenarios)
+## Simulation calibration (three heterogeneity scenarios), with the empirical
+## prior and posterior overlaid as reference lines (the paper figure)
 ## ============================================================================
 sim <- readRDS("results/simulation.rds")
 lvlmap <- c(low = "Low heterogeneity", medium = "Medium heterogeneity",
@@ -146,4 +127,4 @@ g2 <- ggplot(plotdf, aes(metric, value, color = level, group = level)) +
 
 ggsave("figures/simulation_calibration.pdf", g2, width = 7, height = 9)
 
-cat("Wrote figures/prior_posterior.pdf and figures/simulation_calibration.pdf\n")
+cat("Wrote figures/simulation_calibration.pdf\n")
