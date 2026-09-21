@@ -85,8 +85,9 @@ source("analysis/4_figures.R")             # writes the paper figures to figures
 |---|---|---|
 | `0_motivating_example.R` | `figures/fig_two_topics.pdf`, `results/two_topics_suffstats.rds` | Section *Introduction - The Added Value of Replicability*; Fig. 1, Table 1 |
 | `1_fit_replicability.R` | `results/fit_replicability.rds`; empirical, retrospective and prospective metric tables | Section *Empirical Application - Results*; Fig. 5. Supplement A 0 Section *Monte Carlo Diagnostics for the Empirical Replication Probabilities*; Table S1, S2, S3 |
-| `3_prior_sensitivity.R` | `results/sensitivity_tau_beta.rds`; metric-by-prior-median grid | Section Empirical Application - Results; Table 4 |
-| `2_simulation.R` | `results/simulation.rds`; per-scenario metrics with MCSE | Section *Calibrating the Metrics through Simulation - Empirically Grounded Design & Results*; Table 5 6 7 8, Fig. 6 |
+| `2_prior_sensitivity.R` | `results/sensitivity_tau_beta.rds`; metric-by-prior-median grid | Section Empirical Application - Results; Table 4 |
+| `3_simulation.R` | `results/simulation.rds`; per-scenario metrics with MCSE | Section *Calibrating the Metrics through Simulation - Empirically Grounded Design*; Table 5 6 7 8 |
+| `4_figures.R` | `figures/simulation_calibration.pdf`, `figures/prior_posterior.pdf` | Section *Calibrating the Metrics through Simulation - Results*; Fig. 6 |
 
 > Alongi, E., Altoè, G. & Parmigiani, G. (2026). *The Quantification of
 > Replicability.*
