@@ -3,20 +3,22 @@
 Code and data to reproduce the analyses and figures in **Alongi, Altoè &
 Parmigiani (2026), *The Quantification of Replicability***.
 
-The paper introduces a Bayesian hierarchical framework that quantifies the
-replicability of an effect across several studies as posterior probabilities,
-defined relative to a practical-relevance threshold `eps` on the scale of the
-effects (rather than on p-values). The method is implemented in the companion R
-package **[RepliBayes](https://github.com/esteralongi/RepliBayes)**; this
-repository contains the scripts that apply it and produce the paper's figures and
-tables.
+This paper offers a unified conceptual framework for discussing why, 
+when and how to quantify the replicability of an effect across several studies.
+It proposes to assess it through a Bayesian hierarchical model, working 
+with posterior probabilities of the effects, defined relative to a 
+practical-relevance threshold `eps`.
+The method is implemented in the companion R package 
+**[RepliBayes](https://github.com/esteralongi/RepliBayes)**; this
+repository contains the scripts that apply it and produce the paper's figures 
+and tables.
 
 ## Data availability
 
-The paper analyses donor-level **GTEx** data — the eQTL effect of SNP
-rs4731702 on *KLF14* across three ancestral groups — which are
-**controlled-access and cannot be redistributed**. To keep the pipeline fully
-runnable, every script here uses a **synthetic dataset**
+The paper analyses donor-level GTEx data — the eQTL effect of SNP
+rs4731702 on *KLF14* across three ancestral groups — which are 
+controlled-access and cannot be redistributed. To keep the pipeline fully
+runnable, every script here uses a synthetic dataset
 (`data/synthetic_data.csv`) with the same structure (`study`, `x`, `m`). The
 results produced from it are therefore *illustrative* and will not reproduce the
 exact numbers reported in the paper.
@@ -28,9 +30,9 @@ The-Quantification-Of-Replicability/
 ├── analysis/
 │   ├── 0_motivating_example.R  # two-topics motivating example (standalone; Section "The Added Value of Replicability")
 │   ├── 1_fit_replicability.R   # empirical metrics: hierarchical, independence, retrospective, prospective
-│   ├── 2_simulation.R          # simulation calibration, varying each heterogeneity (tau_beta/alpha/sigma)
-│   ├── 3_prior_sensitivity.R   # prior sensitivity to the prior on tau_beta
-│   └── 4_figures.R             # paper figures (prior -> posterior movement; simulation calibration)
+│   ├── 2_prior_sensitivity.R   # prior sensitivity to the prior on tau_beta
+│   ├── 3_simulation.R          # simulation calibration, varying each heterogeneity (tau_beta/alpha/sigma)
+│   └── 4_figures.R             # paper figure simulation calibration
 ├── data/
 │   └── synthetic_data.csv      # synthetic stand-in for the GTEx data
 ├── results/                    # script outputs (.rds); created on first run
@@ -49,8 +51,7 @@ remotes::install_github("esteralongi/RepliBayes")
 ```
 
 `RepliBayes` uses [rstan](https://mc-stan.org/rstan/); a working C++ toolchain is
-required to compile the two Stan models on first use. (Replace `esteralongi` with
-your GitHub username once the package repo is created.)
+required to compile the two Stan models on first use.
 
 ## Dependencies
 
@@ -71,32 +72,22 @@ Run the scripts in order:
 
 ```r
 source("analysis/0_motivating_example.R")  # standalone; writes the two-topics figure
-source("analysis/1_fit_replicability.R")   # fits both models; writes results/fit_replicability.rds
-source("analysis/2_simulation.R")          # simulation calibration (slow: R refits per scenario)
-source("analysis/3_prior_sensitivity.R")   # refits across a grid of priors on tau_beta
+source("analysis/1_fit_replicability.R")   # fits both the hierarchical and the independence-limit models and reports
+all replication probabilities; writes results/fit_replicability.rds
+source("analysis/2_prior_sensitivity.R")   # refits across a grid of priors on the effect heterogeneity tau_beta
+source("analysis/3_simulation.R")          # simulation calibration for the three heterogeneity components
 source("analysis/4_figures.R")             # writes the paper figures to figures/
 ```
 
-The framework is run at the paper's setting **S = 3 studies, consensus level
-k = 2** (each script passes `k = 2, m = 1` explicitly; `S` is read from
-`data$study`). Step 0 is a self-contained analytic example and does not use the
-package. Step 1 fits the hierarchical and independence-limit models and reports
-all replication probabilities (each with a Monte Carlo standard error). Step 2
-recomputes the simulation calibration for the three heterogeneity components.
-Step 3 reruns the analysis while shifting the prior on the effect heterogeneity.
-Step 4 rebuilds the figures from the saved results.
-
 ## Outputs
 
-| script | output |
-|---|---|
-| `0_motivating_example.R` | `figures/fig_two_topics.pdf`, `results/two_topics_suffstats.rds` |
-| `1_fit_replicability.R` | `results/fit_replicability.rds`; empirical, retrospective and prospective metric tables |
-| `2_simulation.R` | `results/simulation.rds`; per-scenario metrics with MCSE |
-| `3_prior_sensitivity.R` | `results/sensitivity_tau_beta.rds`; metric-by-prior-median grid |
-| `4_figures.R` | `figures/simulation_calibration.pdf`, `figures/prior_posterior.pdf` |
-
-## Citation
+| script | output | Where in the paper |
+|---|---|---|
+| `0_motivating_example.R` | `figures/fig_two_topics.pdf`, `results/two_topics_suffstats.rds` | Section *Introduction - The Added Value of Replicability*; Fig. 1, Table 1 |
+| `1_fit_replicability.R` | `results/fit_replicability.rds`; empirical, retrospective and prospective metric tables | Section *Empirical Application - Results*; Fig. 5. Supplement A 0 Section *Monte Carlo Diagnostics for the Empirical Replication Probabilities*; Table S1, S2, S3 |
+| `2_prior_sensitivity.R` | `results/sensitivity_tau_beta.rds`; metric-by-prior-median grid | Section Empirical Application - Results; Table 4 |
+| `3_simulation.R` | `results/simulation.rds`; per-scenario metrics with MCSE | Section *Calibrating the Metrics through Simulation - Empirically Grounded Design*; Table 5 6 7 8 |
+| `4_figures.R` | `figures/simulation_calibration.pdf` | Section *Calibrating the Metrics through Simulation - Results*; Fig. 6 |
 
 > Alongi, E., Altoè, G. & Parmigiani, G. (2026). *The Quantification of
 > Replicability.*
