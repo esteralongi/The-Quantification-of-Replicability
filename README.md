@@ -30,9 +30,9 @@ The-Quantification-Of-Replicability/
 ├── analysis/
 │   ├── 0_motivating_example.R  # two-topics motivating example (standalone; Section "The Added Value of Replicability")
 │   ├── 1_fit_replicability.R   # empirical metrics: hierarchical, independence, retrospective, prospective
-│   ├── 2_simulation.R          # simulation calibration, varying each heterogeneity (tau_beta/alpha/sigma)
-│   ├── 3_prior_sensitivity.R   # prior sensitivity to the prior on tau_beta
-│   └── 4_figures.R             # paper figures (prior -> posterior movement; simulation calibration)
+│   ├── 2_prior_sensitivity.R   # prior sensitivity to the prior on tau_beta
+│   ├── 3_simulation.R          # simulation calibration, varying each heterogeneity (tau_beta/alpha/sigma)
+│   └── 4_figures.R             # paper figure simulation calibration
 ├── data/
 │   └── synthetic_data.csv      # synthetic stand-in for the GTEx data
 ├── results/                    # script outputs (.rds); created on first run
