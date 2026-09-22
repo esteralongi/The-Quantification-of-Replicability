@@ -13,12 +13,14 @@ set.seed(42)
 
 data <- read.csv("data/synthetic_data.csv")   # columns: study, x, m
 
-## Elicited empirical-Bayes priors used in the paper (edit to supply your own).
+## Illustrative priors for the synthetic data (edit to supply your own).
+## The paper's elicited empirical-Bayes priors (Table 3) are derived from the
+## controlled-access GTEx pool and cannot be redistributed.
 priors <- default_priors()
 
 ## One call fits both models and computes every metric. Arguments used here
 ## reproduce the paper's setting (S = 3 studies, consensus level consensus_level = 2):
-##   priors  : the elicited hyperparameters
+##   priors  : the hyperparameters (illustrative defaults here)
 ##   consensus_level = 2   : replication requires at least 2 of the 3 studies to agree
 ##   min_corroborating = 1   : each study's conditional metric requires >= 1 other agreeing study
 ##   eps     : practical-relevance threshold; the default (NULL) sets it to
