@@ -1,12 +1,11 @@
 ## 3_prior_sensitivity.R
-## -----------------------------------------------------------------------------
+
 ## Prior sensitivity of the replication metrics to the prior on the effect
 ## heterogeneity tau_beta. The data are held fixed while the prior on tau_beta is
 ## shifted across percentiles of its elicited prior; each setting is refit with
 ## adaptive convergence and the metrics are recomputed.
 ##
 ## Use target = "tau_alpha" or "tau_sig" for the other heterogeneities.
-## -----------------------------------------------------------------------------
 
 library(RepliBayes)
 

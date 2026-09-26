@@ -1,5 +1,5 @@
 ## 2_simulation.R
-## -----------------------------------------------------------------------------
+
 ## Simulation calibration of the replication metrics. One component of the
 ## generative model is varied at a time (effect / intercept / residual-scale
 ## heterogeneity) across low / medium / high levels; for each level R datasets of
@@ -7,8 +7,7 @@
 ## replicates with a Monte Carlo standard error.
 ##
 ## Uses the empirical fit from step 1 to set the ground-truth locations.
-## This is the slow step: R refits per level, per scenario.
-## -----------------------------------------------------------------------------
+## Slow step: R refits per level, per scenario.
 
 library(RepliBayes)
 

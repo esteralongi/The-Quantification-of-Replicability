@@ -1,18 +1,14 @@
 ## 4_figures.R
-## -----------------------------------------------------------------------------
+
 ## Paper figure, rebuilt from the saved results:
 ##   figures/simulation_calibration.pdf  simulation calibration (3 heterogeneities),
 ##                                        with the empirical prior and posterior
 ##                                        overlaid as reference lines.
 ##
-## (The prior -> posterior "movement" plot is not a paper figure; it is shown
-## only in the package vignette.)
-##
 ## All metrics use the paper-style names returned by compute_replication_probs_hier()
 ## and simulate_replicability() (P_overall_2, P_gen_pos_2, P_c_pos_2, ...).
 ## Run steps 1 and 2 first (they write results/fit_replicability.rds and
 ## results/simulation.rds).
-## -----------------------------------------------------------------------------
 
 library(RepliBayes)
 library(ggplot2)
@@ -25,7 +21,6 @@ priors <- res$priors
 eps    <- res$eps
 nu     <- priors$nu
 
-## metric order and pretty (plotmath) labels ----------------------------------
 metrics_k2 <- c("P_overall_2", "P_non_null_2", "P_pos_2", "P_null_2", "P_neg_2",
                 "P_cond_O1_m1", "P_cond_O2_m1", "P_cond_O3_m1", "P_beta",
                 "P_gen_overall_2", "P_gen_non_null_2", "P_gen_pos_2", "P_gen_null_2",
@@ -51,14 +46,13 @@ label_dict <- c(
   "P_c_neg_2"        = "P['c, neg, 2']"
 )
 
-## helper: named list of probabilities -> tidy data frame (metric, value) ------
 probs_to_df <- function(pr) {
   d <- data.frame(metric = names(pr), value = as.numeric(unlist(pr)),
                   stringsAsFactors = FALSE)
   d[d$metric %in% metrics_k2, ]
 }
 
-## posterior reference (from the empirical hierarchical fit) -------------------
+## posterior reference (from the empirical hierarchical fit) 
 post <- rstan::extract(res$fit_hierarchical)
 probs_post <- compute_replication_probs_hier(list(post$beta[, 1], post$beta[, 2], post$beta[, 3]),
                                              post$mu_beta, eps)
@@ -72,10 +66,9 @@ a2 <- beta_draw + tau_a_draw * rt(Nd, df = nu)
 a3 <- beta_draw + tau_a_draw * rt(Nd, df = nu)
 probs_prior <- compute_replication_probs_hier(list(a1, a2, a3), beta_draw, eps)
 
-## ============================================================================
+
 ## Simulation calibration (three heterogeneity scenarios), with the empirical
 ## prior and posterior overlaid as reference lines (the paper figure)
-## ============================================================================
 sim <- readRDS("results/simulation.rds")
 lvlmap <- c(low = "Low heterogeneity", medium = "Medium heterogeneity",
             high = "High heterogeneity")

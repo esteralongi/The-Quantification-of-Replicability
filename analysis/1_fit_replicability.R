@@ -1,17 +1,16 @@
 ## 1_fit_replicability.R
-## -----------------------------------------------------------------------------
+
 ## Empirical replication analysis: fit the hierarchical and independence-limit
 ## models and compute all replication probabilities (study-level, generative,
 ## retrospective and prospective), each with a Monte Carlo standard error.
 ##
-## Runs on the SYNTHETIC dataset; the paper uses controlled-access GTEx data, so
+## Runs on the synthetic dataset; the paper uses controlled-access GTEx data, so
 ## the numbers here are illustrative and will not match the paper exactly.
-## -----------------------------------------------------------------------------
 
 library(RepliBayes)
 set.seed(42)
 
-data <- read.csv("data/synthetic_data.csv")   # columns: study, x, m
+data <- read.csv("data/synthetic_data.csv")   # columns: study, x, y
 
 ## Illustrative priors for the synthetic data (edit to supply your own).
 ## The paper's elicited empirical-Bayes priors (Table 3) are derived from the
