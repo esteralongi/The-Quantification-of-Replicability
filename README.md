@@ -19,7 +19,7 @@ The paper analyses donor-level GTEx data — the eQTL effect of SNP
 rs4731702 on *KLF14* across three ancestral groups — which are 
 controlled-access and cannot be redistributed. To keep the pipeline fully
 runnable, every script here uses a synthetic dataset
-(`data/synthetic_data.csv`) with the same structure (`study`, `x`, `m`). The
+(`data/synthetic_data.csv`) with the same structure (`study`, `x`, `y`). The
 results produced from it are therefore *illustrative* and will not reproduce the
 exact numbers reported in the paper.
 
